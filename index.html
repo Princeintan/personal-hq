@@ -1,71 +1,273 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Business Engine</title>
-    <!-- Tailwind CSS for modern, fast styling -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HQ Engine // Personal Command Center</title>
+    <link rel="manifest" href="./manifest.json" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Smooth transitions for mobile viewports */
-        body { -webkit-tap-highlight-color: transparent; }
-    </style>
-</head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased pb-20 md:pb-0">
-
-    <!-- Desktop Sidebar / Mobile Top Header -->
-    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 flex justify-between items-center z-50">
-        <div class="flex items-center space-x-3">
-            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
-            <h1 class="text-xl font-bold tracking-wide text-white">HQ // Engine</h1>
-        </div>
-        <span class="text-xs bg-slate-700 px-2.5 py-1 rounded-full text-slate-300 font-mono">v1.0.0-dev</span>
+    <!-- jsPDF script engine loading over secure CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </head>
+  <body class="bg-slate-900 text-slate-100 font-sans antialiased pb-24 md:pb-6">
+    <!-- Global System Monitor Bar -->
+    <header
+      class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 flex justify-between items-center z-50"
+    >
+      <div class="flex items-center space-x-3">
+        <div
+          class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]"
+        ></div>
+        <h1 class="text-xl font-bold tracking-wider text-white">
+          HQ // ENGINE
+        </h1>
+      </div>
+      <span
+        class="text-xs bg-slate-700 px-3 py-1 rounded-full text-slate-300 font-mono tracking-tight"
+        >SECURE MODE</span
+      >
     </header>
 
-    <!-- Main Workspace Matrix -->
-    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
-        
-        <!-- Welcome Matrix Card -->
-        <div class="bg-gradient-to-br from-slate-800 to-slate-850 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h2 class="text-2xl font-bold text-white mb-2">Welcome to your Personal Assistant</h2>
-            <p class="text-slate-400 max-w-2xl text-sm leading-relaxed">
-                This workspace is completely local-first and secure. No data leaves this device unless encrypted by your private keys.
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+      <!-- Live Financial Analytics Desk -->
+      <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/60">
+          <p
+            class="text-xs font-semibold text-slate-400 uppercase tracking-wider"
+          >
+            Total Revenue
+          </p>
+          <p id="stat-revenue" class="text-2xl font-bold text-emerald-400 mt-1">
+            ₹0.00
+          </p>
+        </div>
+        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/60">
+          <p
+            class="text-xs font-semibold text-slate-400 uppercase tracking-wider"
+          >
+            Total Expenses
+          </p>
+          <p id="stat-expenses" class="text-2xl font-bold text-rose-400 mt-1">
+            ₹0.00
+          </p>
+        </div>
+        <div class="bg-slate-800 p-5 rounded-xl border border-slate-700/60">
+          <p
+            class="text-xs font-semibold text-slate-400 uppercase tracking-wider"
+          >
+            Net Position
+          </p>
+          <p id="stat-net" class="text-2xl font-bold text-white mt-1">₹0.00</p>
+        </div>
+      </section>
+
+      <!-- Twin Interaction Matrix (Ledger + Productivity) -->
+      <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Secure Financial Ledger Block -->
+        <div
+          class="bg-slate-800/60 border border-slate-700 p-6 rounded-2xl space-y-6"
+        >
+          <h2
+            class="text-lg font-bold text-white tracking-wide border-b border-slate-700 pb-3"
+          >
+            Financial Transaction Ledger
+          </h2>
+
+          <!-- Quick Entry Transaction Form -->
+          <form id="ledger-form" class="grid grid-cols-2 gap-3">
+            <select
+              id="ledg-type"
+              class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500"
+            >
+              <option value="income">Income (+)</option>
+              <option value="expense">Expense (-)</option>
+            </select>
+            <input
+              id="ledg-amount"
+              type="number"
+              required
+              placeholder="Amount (INR)"
+              class="bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-500"
+            />
+            <input
+              id="ledg-desc"
+              type="text"
+              required
+              placeholder="Description / Particulars"
+              class="col-span-2 bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-emerald-500"
+            />
+            <button
+              type="submit"
+              class="col-span-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg p-2.5 text-sm transition-all shadow-md"
+            >
+              Record Cash Entry
+            </button>
+          </form>
+
+          <!-- Financial Statement Output Ledger -->
+          <div
+            class="max-h-60 overflow-y-auto space-y-2 pr-1"
+            id="ledger-container"
+          >
+            <p class="text-xs text-slate-500 text-center py-4">
+              No active records captured in local cache.
             </p>
-            <div class="mt-6 flex flex-wrap gap-3">
-                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-3 py-1.5 rounded-lg font-mono">✓ Git Repo Connection Active</span>
-                <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs px-3 py-1.5 rounded-lg font-mono">⚡ PWA Ready</span>
-            </div>
+          </div>
         </div>
 
-        <!-- Placeholder Grid for upcoming modules -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl border-dashed flex flex-col justify-center items-center text-center h-48">
-                <p class="text-slate-400 font-semibold mb-1">Finance & Ledger</p>
-                <p class="text-xs text-slate-500">Phase 2 Implementation</p>
+        <!-- Task Board & Productivity Control -->
+        <div
+          class="bg-slate-800/60 border border-slate-700 p-6 rounded-2xl space-y-6"
+        >
+          <h2
+            class="text-lg font-bold text-white tracking-wide border-b border-slate-700 pb-3"
+          >
+            Productivity Velocity System
+          </h2>
+
+          <!-- Quick Entry Task Form -->
+          <form id="task-form" class="flex gap-2">
+            <input
+              id="task-title"
+              type="text"
+              required
+              placeholder="Identify next milestone sprint..."
+              class="flex-1 bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              class="bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg px-4 text-sm transition-all"
+            >
+              Queue Task
+            </button>
+          </form>
+
+          <!-- Task Board Stages -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+              <h3
+                class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3"
+              >
+                Active Sprints
+              </h3>
+              <div id="tasks-active" class="space-y-2"></div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl border-dashed flex flex-col justify-center items-center text-center h-48">
-                <p class="text-slate-400 font-semibold mb-1">Lead Pipeline</p>
-                <p class="text-xs text-slate-500">Phase 2 Implementation</p>
+            <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+              <h3
+                class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3"
+              >
+                Completed
+              </h3>
+              <div id="tasks-done" class="space-y-2"></div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/60 p-6 rounded-xl border-dashed flex flex-col justify-center items-center text-center h-48">
-                <p class="text-slate-400 font-semibold mb-1">Secure Sync Engine</p>
-                <p class="text-xs text-slate-500">Phase 3 Implementation</p>
-            </div>
+          </div>
         </div>
+      </section>
+
+      <!-- Smart Document Billing Generation Deck -->
+      <section
+        class="bg-slate-800/60 border border-slate-700 p-6 rounded-2xl space-y-6"
+      >
+        <h2
+          class="text-lg font-bold text-white tracking-wide border-b border-slate-700 pb-3"
+        >
+          Automated Billing & Lead Document Pipeline
+        </h2>
+
+        <form id="billing-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-slate-400"
+              >Client / Organization Name</label
+            >
+            <input
+              id="bill-client"
+              type="text"
+              required
+              placeholder="Enter Client Name"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-slate-400"
+              >Document Classification</label
+            >
+            <select
+              id="bill-type"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-500"
+            >
+              <option value="Estimate">Pro-Forma Estimate</option>
+              <option value="Invoice">Tax Invoice</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold text-slate-400"
+              >Billing Value (INR)</label
+            >
+            <input
+              id="bill-amount"
+              type="number"
+              required
+              placeholder="Total Cost Matrix"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-500"
+            />
+          </div>
+          <div class="space-y-1.5 md:col-span-3">
+            <label class="text-xs font-semibold text-slate-400"
+              >Project Line-Item Breakdown Specifications</label
+            >
+            <input
+              id="bill-item-desc"
+              type="text"
+              required
+              placeholder="e.g., Custom Embedded System Design & Hardware Prototyping Run"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="md:col-span-3 bg-purple-600 hover:bg-purple-500 text-white font-semibold rounded-lg p-3 text-sm transition-all shadow-md"
+          >
+            Compile Secure Document Vector & Record Lead
+          </button>
+        </form>
+
+        <!-- Document Registry Storage Pipeline -->
+        <div
+          class="border border-slate-700/50 rounded-xl overflow-hidden bg-slate-900/30"
+        >
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr
+                class="bg-slate-900 border-b border-slate-700 text-slate-400 text-xs font-semibold uppercase"
+              >
+                <th class="p-3">Client Target</th>
+                <th class="p-3">Type</th>
+                <th class="p-3">Valuation</th>
+                <th class="p-3">Action File</th>
+              </tr>
+            </thead>
+            <tbody id="billing-container">
+              <tr>
+                <td colspan="4" class="p-4 text-xs text-slate-500 text-center">
+                  No compiled client documents on record locally.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
 
-    <!-- Mobile Bottom Navigation Bar (For that native app feel on your phone) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-800/95 backdrop-blur border-t border-slate-700 flex justify-around p-3 md:hidden z-50">
-        <button class="flex flex-col items-center text-emerald-400">
-            <span class="text-xs font-medium mt-1">Dashboard</span>
-        </button>
-        <button class="flex flex-col items-center text-slate-400">
-            <span class="text-xs font-medium mt-1">Ledger</span>
-        </button>
-        <button class="flex flex-col items-center text-slate-400">
-            <span class="text-xs font-medium mt-1">Leads</span>
-        </button>
-    </nav>
-
-</body>
+    <!-- Source Scripts Links -->
+    <script src="./assets/js/db.js"></script>
+    <script src="./assets/js/pdf-gen.js"></script>
+    <script src="./assets/js/app.js"></script>
+    <script>
+      // Start Service Worker background sync for mobile PWA mode
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(console.error);
+      }
+    </script>
+  </body>
 </html>
