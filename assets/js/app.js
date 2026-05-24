@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ledgerForm.onsubmit = async (e) => {
         e.preventDefault();
         await window.DB.addTransaction({
-            type: document.getElementById('grid-type' ? 'grid-type' : 'ledg-type').value,
+            type: document.getElementById('ledg-type').value,
             amount: parseFloat(document.getElementById('ledg-amount').value),
             description: document.getElementById('ledg-desc').value,
             date: new Date().toLocaleDateString('en-IN')
