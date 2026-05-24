@@ -32,10 +32,10 @@ jobs:
       - name: Upload Static Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          # This uploads the entire root directory. 
+          # This uploads the entire root directory.
           # Later, if you use a build step (like Vite/Webpack), you'll change this to 'dist' or 'build'
-          path: '.'
+          path: "."
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/actions-deploy-pages@v4
+        uses: actions/deploy-pages@v4
